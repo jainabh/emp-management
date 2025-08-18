@@ -1,8 +1,12 @@
 package com.ajtutorial.emp_management.controller;
 
+import java.net.InetAddress;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +23,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ajtutorial.emp_management.domain.Emp;
 import com.ajtutorial.emp_management.repository.EmpRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
+
+@Slf4j
 @RestController
 @RequestMapping("/emp")
 public class EmpController {
@@ -26,13 +34,23 @@ public class EmpController {
 	@Autowired
 	private EmpRepository employeeRepository;
 
+	@GetMapping("/healthcheck")
+	public String healthcheck() throws Exception{
+		final byte[] bytes = InetAddress.getLocalHost().getAddress();
+		final String address = IntStream.range(0, bytes.length).mapToObj(index -> bytes[index] & 0xff)
+				.map(Number::toString).collect(Collectors.joining("."));
+		return address;
+	}
+
 	@GetMapping("/getAll")
 	public List<Emp> getAllEmployees() {
+		log.info("teststs" + LocalDateTime.now());
 		return employeeRepository.findAll();
 	}
 
 	@GetMapping("/getById/{id}")
 	public ResponseEntity<Emp> getEmployeeById(@PathVariable(value = "id") Long employeeId) throws Exception {
+		log.info("teststs" + LocalDateTime.now());
 		Emp employee = employeeRepository.findById(employeeId)
 				.orElseThrow(() -> new Exception("Employee not found for this id :: " + employeeId));
 		return ResponseEntity.ok().body(employee);
@@ -41,12 +59,14 @@ public class EmpController {
 	@Transactional
 	@PostMapping("/create")
 	public Emp createEmployee(@RequestBody Emp employee) {
+		log.info("teststs" + LocalDateTime.now());
 		return employeeRepository.save(employee);
 	}
 
 	@PutMapping("/updateById/{id}")
 	public ResponseEntity<Emp> updateEmployee(@PathVariable(value = "id") Long employeeId,
 			@RequestBody Emp employeeDetails) throws Exception {
+		log.info("teststs" + LocalDateTime.now());
 		Emp employee = employeeRepository.findById(employeeId)
 				.orElseThrow(() -> new Exception("Employee not found for this id :: " + employeeId));
 
@@ -59,6 +79,7 @@ public class EmpController {
 
 	@DeleteMapping("/deleteById/{id}")
 	public Map<String, Boolean> deleteEmployee(@PathVariable(value = "id") Long employeeId) throws Exception {
+		log.info("teststs" + LocalDateTime.now());
 		Emp employee = employeeRepository.findById(employeeId)
 				.orElseThrow(() -> new Exception("Employee not found for this id :: " + employeeId));
 
