@@ -7,7 +7,7 @@ phases:
       - echo install
   pre_build:
     commands:
-      - echo pre_build
+      - echo pre_buildd
   build:
     commands:
       - mvn package
