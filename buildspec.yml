@@ -10,7 +10,7 @@ phases:
       - echo pre_buildd
   build:
     commands:
-      - mvn clean package
+      - mvn clean compile install
       - echo build
   post_build:
     commands:
