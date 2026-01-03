@@ -41,6 +41,14 @@ public class EmpController {
 				.map(Number::toString).collect(Collectors.joining("."));
 		return address;
 	}
+	
+	@GetMapping("/healthcheck1")
+	public String healthcheck1() throws Exception{
+		final byte[] bytes = InetAddress.getLocalHost().getAddress();
+		final String address = IntStream.range(0, bytes.length).mapToObj(index -> bytes[index] & 0xff)
+				.map(Number::toString).collect(Collectors.joining("."));
+		return address;
+	}
 
 	@GetMapping("/getAll")
 	public List<Emp> getAllEmployees() {
