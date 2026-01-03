@@ -10,7 +10,8 @@ phases:
       - echo pre_buildd
   build:
     commands:
-      - mvn clean compile install
+      - mvn clean package
+	  - mv target/*.jar emp-management-0.0.2-SNAPSHOT.jar
       - echo build
   post_build:
     commands:
