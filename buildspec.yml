@@ -11,11 +11,11 @@ phases:
   build:
     commands:
       - mvn clean package
-	  - mv target/*.jar emp-management-0.0.2-SNAPSHOT.jar
+	  - mv target/*.jar app.jar
       - echo build
   post_build:
     commands:
       - echo post_build
 artifacts:
   files:
-    - target/emp-management-0.0.2-SNAPSHOT.jar
+    - app.jar
